@@ -44,7 +44,7 @@ public:
             return s.substr (begin, max);
         }
         else {
-            return "babad";
+            return "";
         }
     }
     
