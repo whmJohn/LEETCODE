@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int reverse(int x) {
+        int sum = 0;
+        int first = 1;//用于判断第一个非0数
+        while(x / 10 != 0){
+            if (x % 10 != 0 || !first) {
+                sum = sum * 10 + (x % 10) ;
+                first = 0;
+            }
+            x = x/10;
+        };
+        if ( sum > 214748364 || sum < -214748364 ) { //溢出判断
+            return 0;
+        }
+        sum = sum * 10 + (x % 10);
+        return sum;
+    }
+};
