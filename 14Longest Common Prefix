@@ -1,0 +1,30 @@
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        string result;
+        int size = strs.size();
+        if (size == 1) { //字符串向量中只有一个字符串的情形，直接输出该字符串
+            return strs[0];
+        }
+        int z = 0;
+        int temp = 1000;
+        for (int i = 0; i < size - 1; i++) {
+            result = "";
+            z = min(strs[i].size(), strs[i+1].size());
+            z = min(temp, z);
+            for (int j = 0; j < z; j++) {
+                if (strs[i][j] == strs[i+1][j]) {
+                    result += strs[i+1][j];
+                }
+                else
+                    break;
+            }
+            temp = result.size();
+        }
+        if (result.size() > 0) {
+            return result;
+        }
+        else
+            return "";
+    }
+};
