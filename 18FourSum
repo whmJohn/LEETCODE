@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        if(nums.size() < 4)
+            return {};
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> res;
+        set<vector<int>> a;//使用集合去重
+        for (int p = 0; p < nums.size() - 3; p++) {
+            if(nums[p] > target && target >= 0)
+                break;
+            for(int i = p + 1; i < nums.size() - 2; i++) {
+                int l = i + 1;
+                int r = nums.size() - 1;
+                while(l < r) {
+                    if(nums[p] + nums[l] + nums[r] + nums[i] == target) {
+                        a.insert(vector<int>{nums[p], nums[i], nums[l], nums[r]});
+                        l++;
+                        r--;
+                    }
+                    else if(nums[p] + nums[l] + nums[r] + nums[i] > target)
+                        r--;
+                    else if(nums[p] + nums[l] + nums[r] + nums[i] < target)
+                        l++;
+                }
+            }
+        }
+        for(auto c:a) {
+            res.push_back(c);
+        }
+        return res;
+    }
+};
