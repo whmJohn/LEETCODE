@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        if(digits.size() == 0)
+            return {};
+        map<char, string> phone;
+        phone.insert(map<char, string>::value_type('2', "abc"));
+        phone.insert(map<char, string>::value_type('3', "def"));
+        phone.insert(map<char, string>::value_type('4', "ghi"));
+        phone.insert(map<char, string>::value_type('5', "jkl"));
+        phone.insert(map<char, string>::value_type('6', "mno"));
+        phone.insert(map<char, string>::value_type('7', "pqrs"));
+        phone.insert(map<char, string>::value_type('8', "tuv"));
+        phone.insert(map<char, string>::value_type('9', "wxyz"));
+        int size = digits.size();
+        int sum = 1;
+        for(int i=0; i<digits.size(); i++) { //计算空间大小
+            sum *= phone[digits[i]].size();
+        }
+        vector<string> res(sum);
+        sum = 1; //计算辅助空间大小
+        for(int i = 0; i < digits.size(); i++) {
+            int index = 0; //用来记录组合时的下标
+            vector<string> temp(res.begin(), res.begin() + sum);
+            for(int k = 0; k < sum; k++) { //这个过程将前一步所得到的字符串数组和新的数对应的字符串进行组合
+                for(auto c:phone[digits[i]]) {
+                    res[index] = temp[k] + c;
+                    index++;
+                }
+            }
+            sum *= phone[digits[i]].size();
+        }
+        return res;
+    }
+};
