@@ -1,0 +1,26 @@
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode* temp;
+        ListNode* result;
+        temp = head;
+        int sum = 1;// 用于计算节点的个数
+        while (temp->next != NULL) {
+            temp = temp->next;
+            sum++;
+        }
+        temp = head;
+        result = temp; //temp节点在运行过程中会变化，用result记录下头节点的值用于返回
+        if (n == sum) {
+            result = temp->next;
+        }
+        for (int i = 0; i < sum - 1; i++) {
+            if (i == sum - n - 1) {
+                temp->next = temp->next->next;
+                continue;
+            }
+            temp = temp->next;
+        }
+        return result;
+    }
+};
