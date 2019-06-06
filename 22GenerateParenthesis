@@ -7,13 +7,13 @@ public:
     }
     
     void backtrack(vector<string> &res, string str, int open, int close, int max) {
-        if (str.length() == max * 2) {
+        if (str.length() == max * 2) { //此时括号数目满足条件，将该字符串加入到result中
             res.push_back(str);
             return;
         }
-        if (open < max)
+        if (open < max) //先加入'（'
             backtrack(res, str+"(", open+1, close, max);
-        if (close < open)
+        if (close < open)//满足当前字符串中open个数比close大的才加入')'
             backtrack(res, str+")", open, close+1, max);
         
     }
