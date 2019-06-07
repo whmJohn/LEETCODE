@@ -1,0 +1,24 @@
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        if (head == NULL || head->next == NULL) {
+            return head;
+        }
+        ListNode* res; //最终返回头节点
+        ListNode* p; //前驱节点
+        ListNode* temp = head->next;
+        head->next = temp->next;
+        temp->next = head;
+        res = temp;
+        p = head;
+        while (p->next != NULL && p->next->next != NULL) {
+            head = p->next;
+            temp = head->next;
+            head->next = temp->next;
+            temp->next = head;
+            p->next = temp;
+            p = head;
+        }
+        return res;
+    }
+};
