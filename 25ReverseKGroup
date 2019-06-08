@@ -1,0 +1,44 @@
+class Solution {
+public:
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        if (k == 1) {
+            return head;
+        }
+        ListNode* res = head;
+        ListNode* lala = head; //用于判断是否需要继续转换
+        ListNode* p; //前驱节点
+        ListNode* temp[k-1];
+        int flag = 1; //第一次进行转换的标识位
+        while(1) {
+            for (int i = 0; i < k - 1; i++) {
+                if (lala == NULL) {
+                    return res;
+                }
+                lala = lala->next;
+                temp[i] = lala;
+            }
+            if (temp[k-2] == NULL) {
+                return res;
+            }
+            head->next = temp[k-2]->next;
+            temp[0]->next = head;
+            for (int j = 1; j < k - 1; j++) {
+                temp[j]->next = temp[j-1];
+            }
+            head = temp[k-2];
+            if (flag == 1) {
+                res = head;
+                p = temp[0]->next;
+                lala = p->next;
+                head = lala;
+                flag = 0;
+            }
+            else {
+                p->next = head;
+                p = temp[0]->next;
+                lala = p->next;
+                head = lala;
+            }
+        }
+    }
+};
