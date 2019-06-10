@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        int size = nums.size();
+        int res = size;
+        int flag = 1; //用于记录第一次出现相同元素的位置
+        int temp = 0;
+        for (int i = 0; i < size; i++) {
+            if (nums[i] == val) {
+                if (flag) {
+                    temp = i;
+                    flag = 0;
+                }
+                res--;
+                continue;
+            }
+            else {
+                if (!flag) {
+                    nums[temp] = nums[i];
+                    temp++;
+                }
+            }
+        }
+        return res;
+    }
+};
