@@ -17,7 +17,7 @@ public:// 暴力
             unordered_map<string, int> tmp = mp;    // 复制字典
             for(int l = 0; l < sumL; l = l + L) {
                 string tword = str.substr(l, L);    // 截取单词
-                if(tmp.find(tword) == tmp.end() || tmp[tword] < 1)// 单词未在字典中直接跳出
+                if(tmp.find(tword) == tmp.end())// 单词未在字典中直接跳出
                     break;
                 if(tmp[tword] == 1)
                     tmp.erase(tword);
