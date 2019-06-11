@@ -1,0 +1,33 @@
+class Solution {
+public:// 暴力
+    vector<int> findSubstring(string s, vector<string>& words) {
+        vector<int> ans;
+        // 排除不可能的情况
+        if(s.empty() || words.empty() || s.size()<words[0].size()*words.size())
+            return ans;
+        // 生命一个字典来记录单词，及出现的次数
+        unordered_map<string, int> mp;
+        for(string word: words)
+            mp[word]++;
+        // 保存单词的长度，和所有单词构成字符串的长度
+        int L = words[0].size(), sumL = L*words.size();
+        // 一步一步截取sumL长度的字符串进行判断
+        for(int i = 0; i < s.size() - sumL + 1; i++) {
+            string str = s.substr(i, sumL);
+            unordered_map<string, int> tmp = mp;    // 复制字典
+            for(int l = 0; l < sumL; l = l + L) {
+                string tword = str.substr(l, L);    // 截取单词
+                if(tmp.find(tword) == tmp.end() || tmp[tword] < 1)// 单词未在字典中直接跳出
+                    break;
+                if(tmp[tword] == 1)
+                    tmp.erase(tword);
+                else
+                    tmp[tword]--;
+            }
+            // 此段字符串匹配成功
+            if(tmp.empty())
+                ans.push_back(i);
+        }
+        return ans;
+    }
+};
