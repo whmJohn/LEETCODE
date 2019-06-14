@@ -1,0 +1,75 @@
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        vector<int> res;
+        int size = nums.size();
+        if (size == 0) {
+            res.push_back(-1);
+            res.push_back(-1);
+            return res;
+        }
+        if (size == 1) {
+            if (nums[0] == target) {
+                res.push_back(0);
+                res.push_back(0);
+            }
+            else {
+                res.push_back(-1);
+                res.push_back(-1);
+            }
+            return res;
+        }
+        int half = (size-1)/2;
+        int i = 0;
+        int low = 0;
+        int high = size - 1;
+        while(1) {
+            if (nums[half] == target) {
+                if (half == 0) {
+                    res.push_back(0);
+                }
+                else {
+                    for (i = half; i >= low && nums[i] == target; i--) {
+                        
+                    }
+                    res.push_back(i+1);
+                }
+                if (half == size - 1) {
+                    res.push_back(size-1);
+                }
+                else {
+                    for (i = half; i <= high && nums[i] == target; i++) {
+                        
+                    }
+                    res.push_back(i-1);
+                }
+                return res;
+            }
+            else if (nums[half] > target) {
+                if (half == 0 || target > nums[half-1]) {
+                    break;
+                }
+                high = half;
+                half = (high + low)/2;
+            }
+            else {
+                if (half == size - 2) {
+                    if (target == nums[half+1]) {
+                        res.push_back(half+1);
+                        res.push_back(half+1);
+                        return res;
+                    }
+                    else break;
+                }
+                if (target < nums[half+1]) {
+                    break;
+                }
+                low = half;
+                half = (high + low)/2;
+            }
+        }
+        res.push_back(-1);
+        res.push_back(-1);
+        return res;
+    }
+};
