@@ -1,0 +1,44 @@
+class Solution {
+public:
+    string countAndSay(int n) {
+        string res;
+        int sum  = 0;
+        int size = 0;
+        for (int i = 1 ; i <= n; i++) {
+            int size2 = 0;
+            string temp = "";
+            if (i == 1) {
+                res = "1";
+                continue;
+            }
+            size = res.size();
+            for (int j = 0; j < size; j++) {
+                sum = 1;
+                if (j == size - 1) {
+                    temp.insert(size2++, 1, '0'+sum);
+                    temp.insert(size2++, 1, res[j]);
+                }
+                for (int y = j + 1; y < size; y++) {
+                    if (res[j] == res[y]) {
+                        sum ++;
+                        if (y == size - 1) {
+                            temp.insert(size2++, 1, '0'+sum);
+                            temp.insert(size2++, 1, res[j]);
+                            j = y;
+                            break;
+                        }
+                        continue;
+                    }
+                    else {
+                        temp.insert(size2++, 1, '0'+sum);
+                        temp.insert(size2++, 1, res[j]);
+                        j = y - 1;
+                        break;
+                    }
+                }
+            }
+            res = temp;
+        }
+        return res;
+    }
+};
