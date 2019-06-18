@@ -1,0 +1,26 @@
+class Solution {
+public:
+    vector<vector<int>> res;
+    vector<int> col;
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        if(candidates.empty())
+            return res;
+        sort(candidates.begin(),candidates.end()); //进行排序
+        combinationSum(candidates, target, 0); //进行回溯
+        return res;
+    }
+    //方法一：经典回溯
+    void combinationSum(vector<int>& candidates, int target, int next) {
+        if(target == 0){
+            res.push_back(col);
+            return;
+        }
+        if(next == candidates.size() || candidates[next] > target)
+            return;
+        col.push_back(candidates[next]);
+        combinationSum(candidates, target-candidates[next], next);
+        col.pop_back(); //上一步中全部结束，将之前加入的弹出
+        //继续搜索此时达到target的下一个
+        combinationSum(candidates, target, next+1);
+    }
+};
