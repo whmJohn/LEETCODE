@@ -1,0 +1,57 @@
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int size = height.size();
+        int sum = 0;
+        int f;
+        for (int i = 0; i < size - 1; i++) {
+            if (height[i] == 0) {
+                continue;
+            }
+            for (int j = i + 1; j < size; j++) {
+                f = 0;
+                if (height[j] >= height[i]) {
+                    f = 1;
+                    if (j - i == 1) {
+                        i = j-1;
+                        break;
+                    }
+                    else {
+                        int temp = 0;
+                        for (int o = i + 1; o < j; o++) {
+                            temp += height[o];
+                        }
+                        sum += min(height[i], height[j]) * (j-i-1) - temp;
+                        i = j;
+                    }
+                }
+            }
+            if (!f) {
+                for (int p = i + 1; p < size; p++) {
+                    int max = 0;
+                    for (int y = p; y < size; y++) {
+                        if (height[y] > max) {
+                            max = height[y];
+                            p = y;
+                        }
+                    }
+                    if (p - i == 1) {
+                        i = p-1;
+                        break;
+                    }
+                    else {
+                        int temp = 0;
+                        for (int o = i + 1; o < p; o++) {
+                            temp += height[o];
+                        }
+                        sum += min(height[i], max) * (p-i-1) - temp;
+                        i = p-1;
+                        break;
+                    }
+                }
+            }
+            
+        }
+        return sum;
+    }
+};
