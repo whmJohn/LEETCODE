@@ -1,0 +1,34 @@
+//动态规划C++
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int size = nums.size();
+        int r[size]; //用来保存每一个位置走的最小步数
+        r[0] = 0;
+        for (int i = 1; i < size; i++) {
+            r[i] = 10000000;
+            for (int y = 0; y < i; y++) {
+                if (nums[y] >= i - y & r[y] + 1 < r[i]) {
+                    r[i] = r[y] + 1;
+                    break;
+                }
+            }
+        }
+        return r[size-1];
+    }
+};
+//贪心算法Java
+public int jump(int[] nums) {
+    int end = 0;
+    int maxPosition = 0; 
+    int steps = 0;
+    for(int i = 0; i < nums.length - 1; i++) {
+        //找能跳的最远的
+        maxPosition = Math.max(maxPosition, nums[i] + i); 
+        if( i == end) { //遇到边界，就更新边界，并且步数加一
+            end = maxPosition;
+            steps++;
+        }
+    }
+    return steps;
+}
