@@ -1,0 +1,114 @@
+//素数法
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        vector<vector<string>> res;
+        map<double, int> map;
+        int prime[] = { 2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101 };
+        // vector<int> prime;
+        // makePrime(prime, 1000);
+        for(auto& str : strs) {
+            double feature = 1;
+            for(auto s : str)
+                feature *= prime[s - 'a'];
+            auto iter = map.find(feature);
+            if(iter == map.end()) {
+                vector<string> v{ str };
+                res.push_back(v);
+                map.insert(make_pair(feature, res.size() - 1));
+            } else {
+                auto i = iter->second;
+                res[i].push_back(str);
+            }
+        }
+        return res;
+    }
+//makePrime的用处是用来产生素数表，也可以直接将int prime[] = { 2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101 }拿来用
+void makePrime(vector<int>& prime, int size) {
+        static vector<bool> vis(size, false);
+        for(int i = 2; i <= size; ++i) {
+            if(!vis[i]) prime.push_back(i);
+            for(int j = 0; j < prime.size() && i * prime[j] <= size; ++j) {
+                vis[i * prime[j]] = true;
+                if(i % prime[j] == 0) break;
+            }
+        }
+    }
+};
+//O(n2)法
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        int size = strs.size();
+        vector<vector<string>> res;
+        long long int a[size];
+        int q = 0;
+        int f = 0;
+        for (int i = 0; i < size; i++) {
+            f = 0;
+            for (int e = 0; e < q; e++) {
+                if (i == a[e]) {
+                    f = 1;
+                    break;
+                }
+            }
+            if (f) {
+                continue;
+            }
+            vector<string> temp;
+            temp.push_back(strs[i]);
+            for (int j = i + 1; j < size; j++) {
+                if (compare(strs[i], strs[j])) {
+                    a[q++] = j;
+                    temp.push_back(strs[j]);
+                }
+            }
+            res.push_back(temp);
+        }
+        return res;
+    }
+    
+    //比较两字符串是否异位
+    bool compare(string s1, string s2) {
+        int size1 = s1.length();
+        int size2 = s2.length();
+        if (size1 != size2) {
+            return false;
+        }
+        if (size1 == 0) {
+            return true;
+        }
+        int a[size1];
+        int q = 0;
+        int f;
+        for (int i = 0; i < size1; i++) {
+            for (int j = 0; j < size2; j++) {
+                f = 0;
+                //判断之前已经保存过的相同异位字符，若是，直接判断下一个
+                for (int z = 0; z < q; z++) {
+                    if (j == a[z]) {
+                        f = 1;
+                        break;
+                    }
+                }
+                if (f) {
+                    if (j == size1-1) {
+                        return false;
+                    }
+                    continue;
+                }
+                if (s1[i] == s2[j]) {
+                    a[q++] = j;
+                    break;;
+                }
+                else {
+                    if (j == size2-1) {
+                        return false;
+                    }
+                    continue;
+                }
+            }
+        }
+        return true;
+    }
+};
