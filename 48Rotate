@@ -1,0 +1,24 @@
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        int size = matrix.size();
+        //首先将矩阵转制
+        for (int i = 0; i < size; i++) {
+            for (int j = i; j < size; j++) {
+                swap(matrix[j][i], matrix[i][j]);
+            }
+        }
+        //然后将每一行进行反转操作即可得到旋转90度的结果
+        for (int p = 0; p < size; p++) {
+            for (int y = 0 ;y <= (size-1)/2; y++) {
+                swap(matrix[p][y], matrix[p][size-y-1]);
+            }
+        }
+    }
+    void swap(int &a,int &b) {
+        int temp;
+        temp=a;
+        a=b;
+        b=temp;
+    }
+};
