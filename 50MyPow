@@ -1,0 +1,67 @@
+//傻瓜法
+class Solution {
+public:
+    double myPow(double x, int n) {
+        if (x == 0) {
+            return 0;
+        }
+        else if (x == 1) {
+            return 1.0;
+        }
+        else if (x == -1) {
+            if (n % 2 == 0) {
+                return 1;
+            }
+            else
+                return -1;
+        }
+        if (n < -2147483647 & x > 1) {
+            return 0;
+        }
+        else if (n > 2147483647 & x > 0 & x < 1) {
+            return 0;
+        }
+        if (n < 0) {
+            x = 1/x;
+            n = -n;
+        }
+        else if(n == 0) {
+            return 1.0;
+        }
+        double res = 1;
+        for (int i = 0; i < n; i++){
+            if (res < 0.0000000000001 & x > 0 & x < 1) {
+                res = 0;
+                break;
+            }
+            res = x * res;
+        }
+        return res;
+    }
+};
+//递归法
+class Solution {
+public:
+    double fastPow(double x, long long n) {
+        if (n == 0) {
+            return 1.0;
+        }
+        double half = fastPow(x, n / 2);
+        if (n % 2 == 0) {
+            return half * half;
+        } else {
+            return half * half * x;
+        }
+    }
+    double myPow(double x, int n) {
+        long long N = n;
+        if (N < 0) {
+            x = 1 / x;
+            N = -N;
+        }
+        return fastPow(x, N);
+    }
+};
+
+
+
