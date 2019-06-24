@@ -1,0 +1,76 @@
+//分治法求解
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int size = nums.size();
+        if (size == 1) {
+            return nums[0];
+        }
+        else if (size == 0) {
+            return -1000;
+        }
+        else {
+            int mid = (size-1)/2;
+            vector<int> left;
+            left.assign(nums.begin(), nums.begin() + mid + 1);
+            int leftsum = maxSubArray(left);
+            vector<int> right;
+            right.assign(nums.begin() + mid + 1, nums.end());
+            int rightsum = maxSubArray(right);
+            int crossingsum = FINDMAXCROSSINGSUBARRAY(nums, 0, mid, size-1);
+            if (leftsum >= rightsum && leftsum >= crossingsum) {
+                return leftsum;
+            }
+            else if (rightsum >= leftsum && rightsum >= crossingsum) {
+                return rightsum;
+            }
+            else
+                return crossingsum;
+        }
+    }
+    
+    int FINDMAXCROSSINGSUBARRAY(vector<int>& nums, int low, int mid, int high) {
+        int leftsum = -1000;
+        int sum = 0;
+        for (int i = mid; i >= low; i--) {
+            sum = sum + nums[i];
+            if (sum > leftsum) {
+                leftsum = sum;
+            }
+        }
+        int rightsum = -1000;
+        sum = 0;
+        for (int i = mid + 1; i <= high; i++) {
+            sum = sum + nums[i];
+            if (sum > rightsum) {
+                rightsum = sum;
+            }
+        }
+        return (rightsum + leftsum);
+    }
+};
+
+//线性时间最大字数组解法
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int size = nums.size();
+        if (size == 1) {
+            return nums[0];
+        }
+        int sum = -1000;
+        int endingheresum = -1000;
+        for (int i = 0; i < size; i++) {
+            if (endingheresum > 0) {
+                endingheresum += nums[i];
+            }
+            else {
+                endingheresum = nums[i];
+            }
+            if (endingheresum > sum) {
+                sum = endingheresum;
+            }
+        }
+        return sum;
+    }
+};
