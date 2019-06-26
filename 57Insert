@@ -1,0 +1,32 @@
+class Solution {
+public:
+    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+        intervals.push_back(newInterval);
+        vector<vector<int>> res;
+        sort(intervals.begin(), intervals.end());
+        int size = intervals.size();
+        for (int i = 0; i < size; i++) {
+            vector<int> temp;
+            int j = i;
+            if (j == size - 1) {
+                temp.push_back(intervals[i][0]);
+                temp.push_back(intervals[i][1]);
+                res.push_back(temp);
+                break;
+            }
+            while (intervals[j][1] >= intervals[j+1][0]) {
+                j++;
+                intervals[i][1] = max(intervals[j][1],intervals[i][1]);
+                intervals[j][1] = max(intervals[j][1],intervals[i][1]);
+                if (j == size - 1) {
+                    break;
+                }
+            }
+            temp.push_back(intervals[i][0]);
+            temp.push_back(max(intervals[j][1],intervals[i][1]));
+            res.push_back(temp);
+            i = j;
+        }
+        return res;
+    }
+};
