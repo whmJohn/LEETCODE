@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int lengthOfLastWord(string s) {
+        int size = s.size();
+        int f = 0;
+        int q = -1;
+        int i;
+        if (size == 0) {
+            return 0;
+        }
+        for (i = size - 1; i >= 0; i--){
+            if (s[i] == ' ' && q != -1) {
+                f = 1;
+                break;
+            }
+            else if (s[i] != ' ' && q == -1) {
+                q = i;
+            }
+        }
+        if ((f || i == -1) && q != -1) {
+            return (q - i);
+        }
+        else {
+            return 0;
+        }
+    }
+};
