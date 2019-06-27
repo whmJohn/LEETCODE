@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        vector<vector<int>> res;
+        if(n == 0) return res; //若数组为空，直接返回答案
+        for (int i = 0; i < n; i++) {
+            vector<int> temp;
+            for(int j = 0; j < n; j++) {
+                temp.push_back(0);
+            }
+            res.push_back(temp);
+        }
+        int u = 0; //赋值上下左右边界
+        int d = n - 1;
+        int l = 0;
+        int r = n - 1;
+        int num = 1;
+        while(true) {
+            for(int i = l; i <= r; ++i) res[u][i] = num++;      //ans.push_back(num++); //向右移动直到最右
+            if(++ u > d) break; //重新设定上边界，若上边界大于下边界，则遍历遍历完成，下同
+            for(int i = u; i <= d; ++i) res[i][r] = num++;      //ans.push_back(num++); //向下
+            if(-- r < l) break; //重新设定有边界
+            for(int i = r; i >= l; --i) res[d][i] = num++;      //ans.push_back(num++); //向左
+            if(-- d < u) break; //重新设定下边界
+            for(int i = d; i >= u; --i) res[i][l] = num++;      //ans.push_back(num+); //向上
+            if(++ l > r) break; //重新设定左边界
+        }
+        return res;
+    }
+};
