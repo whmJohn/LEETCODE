@@ -1,0 +1,83 @@
+class Solution {
+public:
+    bool isNumber(string s) {
+        trim(s); //去除首尾的空格
+        int size = s.size();
+        if(!size) {
+            return false;
+        }
+        //判断是不是指数
+        for (int i = 0; i < size; i++) {
+            if (s[i] == 'e' && i == 0) {
+                return false;
+            }
+            if (s[i] == 'e') {
+                string temp1, temp2;
+                temp1.assign(s, 0, i);
+                temp2.assign(s, i+1, size-i-1);
+                if (temp2.find('.') != string::npos) {
+                    return false;
+                }
+                if (number(temp1) && number(temp2)) {
+                    return true;
+                }
+            }
+        }
+        //判断是不是正确数字数字
+        if (number(s))
+            return true;
+        return false;
+    }
+    
+    //判断该字符串是不是合理的数字，带'.'or不带'.'，以及正负号是否正确
+    bool number(string s) {
+        int size = s.size();
+        int flag = 1;
+        if (size == 0) {
+            return false;
+        }
+        for (int i = 0; i < size; i++) {
+            if (s[i] >= '0' && s[i] <= '9') {
+                if (s[i] == '0' && i == 0) { //前面出现连续0的情况
+                    if (s[i+1] == 0 && (i+1) < size) {
+                        return false;
+                    }
+                }
+            }
+            else if ((s[i] == '-' || s[i] == '+') && i == 0 && size != 1) {
+                continue;
+            }
+            else if (s[i] == '.' && flag) {
+                flag = 0;
+                if (i == size-1 && i == 0) {
+                    return false;
+                }
+                string temp1, temp2;
+                temp1.assign(s, 0, i);
+                temp2.assign(s, i+1, size-i-1);
+                if (temp1.find('.') != string::npos || temp2.find('.') != string::npos) { //存在多个'.'
+                    return false;
+                }
+                if (temp2.find('-') != string::npos || temp2.find('+') != string::npos) {
+                    return false;
+                }
+                if ((temp1[0] == '-' || temp1[0] == '+') && number(temp2)) {
+                    return true;
+                }
+                return (number(temp1) || temp1.size() == 0) && (number(temp2) || temp2.size() == 0);
+            }
+            else {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    //去除首尾空格
+    void trim(string &s) {
+        if(!s.empty()) {
+            s.erase(0, s.find_first_not_of(" "));
+            s.erase(s.find_last_not_of(" ") + 1);
+        }
+    }
+};
