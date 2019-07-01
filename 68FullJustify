@@ -1,0 +1,36 @@
+class Solution {
+public:
+    vector<string> fullJustify(vector<string>& words, int maxWidth) {
+        vector<string> ans;
+        int begin = 0, width = 0;
+        for (int i = 0; i < words.size(); i++) {
+            if (width + words[i].size() + i - begin > maxWidth) {
+                ans.push_back("");
+                if (i - 1 - begin <= 0) { //一个字符串的情形
+                    ans.back() += words[begin];
+                    ans.back() += string(maxWidth - ans.back().size(), ' ');
+                } 
+                else { //多个字符串的情形
+                    int quo = (maxWidth - width) / (i - begin - 1);
+                    int rem = (maxWidth - width) % (i - begin - 1);
+                    for (int j = begin; j < i - 1; j++) {
+                        ans.back() += words[j];
+                        ans.back() += string(j < begin + rem ? quo + 1 : quo, ' ');
+                    }
+                    ans.back() += words[i - 1];
+                }
+                begin = i;
+                width = 0;
+            }
+            width += words[i].size();
+        }
+        ans.push_back(""); //最后一行，先把除了最后一个单词其它单词放入
+        for (int i = begin; i < words.size() - 1; i++) {
+            ans.back() += words[i];
+            ans.back() += ' ';
+        }
+        ans.back() += words.back(); //最后一行把最后一个单词放入
+        ans.back() += string(maxWidth - ans.back().size(), ' ');
+        return ans;
+    }
+};
