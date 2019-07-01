@@ -1,0 +1,61 @@
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        string res;
+        int size1 = a.size();
+        int size2 = b.size();
+        int m = size1 - 1;
+        int n = size2 - 1;
+        int add = 0;
+        while(m >= 0 && n >= 0) {
+            if (a[m]- '0' + b[n]- '0' + add < 2) {
+                a[m] = a[m]- '0' + b[n] + add;
+                add = 0;
+            }
+            else if (a[m]- '0' + b[n]- '0' + add == 2) {
+                a[m] = '0';
+                add = 1;
+            }
+            else {
+                a[m] = '1';
+                add = 1;
+            }
+            m--;
+            n--;
+        }
+        if (n == -1) {
+            for (int i = m; i >= 0; i--) {
+                if (a[i]- '0'+ add < 2) {
+                    a[i] = a[i] + add;
+                    add = 0;
+                }
+                else {
+                    a[i] = '0';
+                    add = 1;
+                }
+            }
+            if (add) {
+                res.append(1, '1');
+            }
+            res.append(a.begin(), a.end());
+        }
+        else if (m == -1) {
+            for (int i = n; i >= 0; i--) {
+                if (b[i]- '0'+ add < 2) {
+                    b[i] = b[i] + add;
+                    add = 0;
+                }
+                else {
+                    b[i] = '0';
+                    add = 1;
+                }
+            }
+            if (add) {
+                res.append(1, '1');
+            }
+            res.append(b.begin(), b.begin()+n+1);
+            res.append(a);
+        }
+        return res;
+    }
+};
