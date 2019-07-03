@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int mySqrt(int x) {
+        long long int i = 1;
+        long long int sum = 0;
+        while(1) {
+            sum = i * i;
+            if (sum > x) {
+                return i-1;
+                break;
+            }
+            i++;
+        }
+        return 0;
+    }
+};
