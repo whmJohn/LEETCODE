@@ -1,0 +1,50 @@
+class Solution {
+public:
+    string simplifyPath(string path) {
+        int size = path.size();
+        string res;
+        for (int i = 0; i < size; i++) {
+            if (path[i] == '/') {
+                if (i == size - 1) {
+                    break;
+                }
+                string temp;
+                i++;
+                while(path[i] != '/' && i <= size - 1) {
+                    temp += path[i];
+                    i++;
+                }
+                if (temp == "." || temp == "") {
+                    
+                }
+                else if (temp == "..") {
+                    if (res == "") {
+                        
+                    }
+                    else {
+                        int size2 = res.size();
+                        for (int j = size2-1; j >= 0; j--) {
+                            if (res[j] != '/') {
+                                continue;
+                            }
+                            else {
+                                res.erase(j, size2 - j + 1);
+                                break;
+                            }
+                        }
+                    }
+                }
+                else {
+                    res += '/';
+                    res += temp;
+                }
+            }
+            i--;
+        }
+        if (res == "") {
+            res += '/';
+        }
+        return res;
+    }
+
+};
