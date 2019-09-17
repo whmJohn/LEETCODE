@@ -1,0 +1,77 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        int size1 = int(s.size());
+        int size2 = int(t.size());
+        map<char, int> map2;
+        for (int i = 0; i < t.length(); i++) {
+            int count = map2[t[i]];
+            if (count == 0) {
+                map2.erase(t[i]);
+                map2.insert(make_pair(t[i], 1));
+            }
+            else {
+                map2.erase(t[i]);
+                map2.insert(make_pair(t[i], count + 1));
+            }
+            
+        }
+//        cout << map2['b'];
+        string res;
+        string temp;
+        int f = 0;
+        int q = 0;
+        int length = 1000;
+        for (int i = 0; i < size1 - size2 + 1; i++){
+            for (int j = size2; j < size1 - i + 1; j++) {
+                temp = s.substr(i, j);
+                map<char, int> map1;
+                map1 = map2;
+                for (int z = 0; z < j; z++) { //判断是否含有t中所有字符
+                    int m = map1[temp[z]];
+                    if (m == 0) {
+                        map1.erase(temp[z]);
+                        continue;
+                    }
+                    else if(m == 1){
+                        map1.erase(temp[z]);
+                    }
+                    else {
+                        map1.erase(temp[z]);
+                        map1.insert(make_pair(temp[z], m - 1));
+                    }
+                }
+                    
+                    
+//                    if (temp.find(t[z]) == string::npos) {
+//                        q = 1;
+//                        break;
+//                    }
+//                    else {
+//                        int m = int(map1.count(t[z]));
+//                        if (m == 1) {
+//                            map1.erase(t[z]);
+//                        }
+//                        else if (m > 1){
+//                            map1.erase(t[z]);
+//                            map1.insert(make_pair(t[z], m - 1));
+//                        }
+//                        else {
+//                            break;
+//                        }
+//                    }
+//                }
+                if (q == 0 && temp.length() < length && map1.empty()) {
+                    length = int(temp.length());
+                    res = temp;
+                    f = 1;
+                }
+                q = 0;
+            }
+        }
+        if (!f) {
+            return "";
+        }
+        return res;
+    }
+};
